@@ -7,7 +7,7 @@ Servo servo;
 #define KEYWORD1 "turnon"
 #define KEYWORD2 "turnoff"
 
-SoftwareSerial gsmSerial(2, 3);
+SoftwareSerial gsmSerial(6, 7);
 
 LayadCircuits_SalengGSM salengGSM = LayadCircuits_SalengGSM(&gsmSerial);
 int servoPin = 9;
