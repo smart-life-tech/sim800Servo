@@ -4,8 +4,8 @@
 #include <Servo.h>
 Servo servo;
 // do not use the following: OK, ERROR, CMT, CMTI, Ready, ready
-#define KEYWORD1 "turnon"
-#define KEYWORD2 "turnoff"
+#define KEYWORD1 "Close"
+#define KEYWORD2 "Open"
 
 SoftwareSerial gsmSerial(6, 7);
 
@@ -20,7 +20,7 @@ void setup()
     delay(10000); // allow 10 seconds for modem to boot up and register
     salengGSM.initSalengGSM();
     Serial.println(F("Done"));
-    Serial.println(F("Send the keywords \"turnon\" or \"turnoff\" via SMS to turn the builtin LED on or off"));
+    Serial.println(F("Send the keywords \"Open\" or \"Close\" via SMS to turn the builtin LED on or off"));
     servo.attach(servoPin);
 }
 
@@ -30,14 +30,15 @@ void loop()
     if (salengGSM.isSMSavailable()) // we also need to pass here as frequent as possible to check for incoming messages
     {
         salengGSM.readSMS(); // updates the read flag
-        // Serial.print("Sender=");
-        // Serial.println(salengGSM.smsSender);
-        // Serial.print("Whole Message=");
-        // Serial.println(salengGSM.smsRxMsg); // if we receive an SMS, print the contents of the receive buffer
+        Serial.print("Sender=");
+        Serial.println(salengGSM.smsSender);
+        Serial.print("Whole Message=");
+        Serial.println(salengGSM.smsRxMsg); // if we receive an SMS, print the contents of the receive buffer
 
         if (strstr(salengGSM.smsRxMsg, KEYWORD1)) // check if keyword 1 was received
         {
             // do something here
+            Serial.println("on recived");
             digitalWrite(LED_BUILTIN, HIGH);
             for (int i = 0; i < 180; i++)
             {
@@ -47,6 +48,7 @@ void loop()
         }
         else if (strstr(salengGSM.smsRxMsg, KEYWORD2)) // check if keyword 2 was received
         {
+            Serial.println("off recived");
             // do something here
             digitalWrite(LED_BUILTIN, LOW);
             for (int i = 180; i > 0; i--)
