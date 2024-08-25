@@ -10,7 +10,7 @@ int lock_pin = 4;
 #define KEYWORD1 "Open"
 #define KEYWORD2 "Close"
 
-SoftwareSerial gsmSerial(2, 3); // rx tx
+SoftwareSerial gsmSerial(3, 2); // rx tx
 
 LayadCircuits_SalengGSM salengGSM = LayadCircuits_SalengGSM(&gsmSerial);
 int servoPin = 9;
